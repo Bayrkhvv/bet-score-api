@@ -14,7 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->foreignId(\App\Models\Matches::LEAGUE_ID)
                 ->constrained(\App\Models\League::TABLE);
-            $table->text(\App\Models\Matches::JSON)->nullable();
+            $table->string(\App\Models\Matches::TEAM1);
+            $table->string(\App\Models\Matches::TEAM2);
+            $table->json(\App\Models\Matches::SCORE);
+            $table->json(\App\Models\Matches::JSON);
             $table->timestamps();
         });
     }

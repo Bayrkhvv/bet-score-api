@@ -28,18 +28,19 @@ class fc24EnglandChamp4x4 extends Command
     public function handle()
     {
         $client   = new \GuzzleHttp\Client;
-        $request  = $client->get('https://1xbit1.com/LiveFeed/Get1x2_VZip?sports=85&champs=2648573&count=50&lng=en&gr=29&mode=4&country=124&partner=65&getEmpty=true');
+        $request  = $client->get('https://1xbet.td/LiveFeed/Get1x2_VZip?sports=85&champs=2648573&count=50&lng=en&gr=316&mode=4&country=124&getEmpty=true');
         $response = $request->getBody()->getContents();
         $items    = json_decode($response, true);
         foreach ($items['Value'] as $item) {
-
-//            foreach ($item['SC'] as $status){
-//                Matches::create([
-//                Matches::LEAGUE_ID => 1,
-//                Matches::JSON      => $status['TS'],
-//            ]);
-//            }
-//
+            if ($item['SC']['I'] === 'Match finished') {
+                Matches::create([
+                    Matches::LEAGUE_ID => 1,
+                    Matches::TEAM1     => $item['O1E'],
+                    Matches::TEAM2     => $item['O2E'],
+                    Matches::SCORE     => $item['SC'],
+                    Matches::JSON      => $item,
+                ]);
+            }
         }
     }
 }
